@@ -1,0 +1,20 @@
+---
+- name: Deploy project with .env
+  hosts: all
+
+  tasks:
+    - name: Ensure .env file exists
+      ansible.builtin.file:
+        path: "/opt/dev-sapg/.env"
+        state: touch
+        mode: '0644'
+
+    - name: Update FRONTEND_IMAGE_TAG in .env
+      ansible.builtin.lineinfile:
+        path: "/opt/dev-sapg/.env"
+        regexp: "^FRONTEND_IMAGE_TAG="
+        line: "FRONTEND_IMAGE_TAG={{ app_version }}"
+        create: yes
+
+    - name: Start docker compose
+      ansible.builtin.shell: docker compose -f /opt/dev-sapg/docker-compose-dev.yaml up -d

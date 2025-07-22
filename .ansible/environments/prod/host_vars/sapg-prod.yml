@@ -1,0 +1,4 @@
+ansible_host: d009b19bdc4f.vps.myjino.ru
+ansible_port: 49335
+ansible_ssh_user: root
+ansible_python_interpreter: /usr/bin/python3
