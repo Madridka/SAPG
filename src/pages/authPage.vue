@@ -83,8 +83,8 @@
 import { watch } from "vue";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
-import { useStore } from "@/store/store";
-import { login } from "@/common/api/auth.js";
+// import { useStore } from "@/store/store";
+// import { login } from "@/common/api/auth.js";
 
 import authLayout from "@/layouts/authLayout.vue";
 import baseInput from "@/components/ui/baseInput.vue";
@@ -102,7 +102,7 @@ export default {
 
   setup() {
     const router = useRouter();
-    const store = useStore();
+    // const store = useStore();
     const showPassword = ref(false);
     const initialValue = ref({ email: "", password: "" });
     const loginError = ref(false);
@@ -112,61 +112,64 @@ export default {
     const isUserTemporary = ref(false);
     const loading = ref(false);
 
-    const handleSubmit = async () => {
-      if (!initialValue.value.email) {
-        loginError.value = true;
-        loginErrorText.value = "Обязательное поле";
-        return;
-      }
+    // const handleSubmit = async () => {
+    //   if (!initialValue.value.email) {
+    //     loginError.value = true;
+    //     loginErrorText.value = "Обязательное поле";
+    //     return;
+    //   }
 
-      if (!initialValue.value.password) {
-        passwordError.value = true;
-        passwordErrorText.value = "Обязательное поле";
-        return;
-      }
+    //   if (!initialValue.value.password) {
+    //     passwordError.value = true;
+    //     passwordErrorText.value = "Обязательное поле";
+    //     return;
+    //   }
 
-      try {
-        loading.value = true;
+    //   try {
+    //     loading.value = true;
 
-        const user = await login({
-          email: initialValue.value.email,
-          password: initialValue.value.password,
-        });
-        localStorage.setItem("access_token", user.access_token);
-        store.setToken(user.access_token);
-        store.setUserRole(user.user_role);
+    //     const user = await login({
+    //       email: initialValue.value.email,
+    //       password: initialValue.value.password,
+    //     });
+    //     localStorage.setItem("access_token", user.access_token);
+    //     store.setToken(user.access_token);
+    //     store.setUserRole(user.user_role);
 
-        if (user.must_change_password) {
-          isUserTemporary.value = true;
-          return;
-        }
-        if (user.user_role === "Admin") {
-          window.location.href = "https://gzprm.asapeducation.online/admin/";
-        } else {
-          router.push("/priority");
-        }
-      } catch (error) {
-        const responseData = error?.response?.data;
-        if (
-          responseData.message ===
-          "The email field must be a valid email address."
-        ) {
-          loginError.value = true;
-          loginErrorText.value = "Введите корректный email";
-        }
-        if (responseData.email === "Email doesn't match any entry") {
-          loginError.value = true;
-          loginErrorText.value = "Такого пользователя не существует";
-        }
-        if (responseData.message === "Invalid credentials") {
-          passwordError.value = true;
-          passwordErrorText.value = "Неверный пароль";
-        }
-      } finally {
-        loading.value = false;
-      }
+    //     if (user.must_change_password) {
+    //       isUserTemporary.value = true;
+    //       return;
+    //     }
+    //     if (user.user_role === "Admin") {
+    //       window.location.href = "https://gzprm.asapeducation.online/admin/";
+    //     } else {
+    //       router.push("/priority");
+    //     }
+    //   } catch (error) {
+    //     const responseData = error?.response?.data;
+    //     if (
+    //       responseData.message ===
+    //       "The email field must be a valid email address."
+    //     ) {
+    //       loginError.value = true;
+    //       loginErrorText.value = "Введите корректный email";
+    //     }
+    //     if (responseData.email === "Email doesn't match any entry") {
+    //       loginError.value = true;
+    //       loginErrorText.value = "Такого пользователя не существует";
+    //     }
+    //     if (responseData.message === "Invalid credentials") {
+    //       passwordError.value = true;
+    //       passwordErrorText.value = "Неверный пароль";
+    //     }
+    //   } finally {
+    //     loading.value = false;
+    //   }
+    // };
+
+    const handleSubmit = () => {
+      router.push("/priority");
     };
-
     const togglePasswordVisibility = () => {
       showPassword.value = !showPassword.value;
     };

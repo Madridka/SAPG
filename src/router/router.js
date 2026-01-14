@@ -17,7 +17,7 @@ const routes = [
     path: "/priority",
     name: "priority",
     component: priorityPage,
-    meta: { nav: true, title: "Список приоритетов", requiresAuth: true },
+    meta: { nav: true, title: "Список приоритетов", requiresAuth: false },
     enabled: true,
   },
   {
